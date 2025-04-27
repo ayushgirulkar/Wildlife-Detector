@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+  <style>
+    body {
+      background-color: #121212;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h2, h3 {
+      color: #00ffcc;
+    }
+    a {
+      color: #00ccff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .btn-danger {
+      padding: 10px 15px;
+      font-weight: bold;
+      background-color: #ff4444;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      border: 2px solid orange;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      font-family: sans-serif;
+    }
+    .latest-alert {
+      background-color: #39FF14;
+      color: black;
+      box-shadow: 0 0 10px #39FF14, 0 0 20px #39FF14;
+    }
+    .old-alert {
+      background-color: #1f1f1f;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h2>Welcome, Admin</h2>
+  <a href="/upload">📤 Upload Footage</a>
+
+  <div id="map" style="height: 300px; margin-top: 20px;"></div>
+
+  <form method="POST" action="/clear_alerts">
+    <button type="submit" class="btn-danger">🧹 Clear All Notifications</button>
+  </form>
+
+  <h3>Notifications:</h3>
+  <ul>
+    {% for alert in alerts %}
+      <li class="{% if loop.index0 == 0 %}latest-alert{% else %}old-alert{% endif %}">
+        <strong>{{ alert[1] }}</strong> detected at {{ alert[2] }} on {{ alert[5] }}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <script>
+    var map = L.map('map').setView([20.5937, 78.9629], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    var markers = L.markerClusterGroup();
+
+    const alerts = [
+      {% for alert in alerts %}
+        {
+          label: "{{ alert[1] }}",
+          location: "{{ alert[2] }}",
+          lat: {{ alert[3] }},
+          lon: {{ alert[4] }},
+          time: "{{ alert[5] }}"
+        }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ];
+
+    alerts.forEach(alert => {
+      let popupText = '';
+      if (alert.label === 'fire') popupText = "🔥 Fire detected!";
+      else if (alert.label === 'hunting') popupText = "🐾 Hunting activity detected!";
+      else if (alert.label === 'elephant') popupText = "🐘 Elephant detected!";
+      else if (alert.label === 'person') popupText = "🚶 Person detected!";
+      else popupText = "⚠️ Unknown Event";
+
+      if (!isNaN(alert.lat) && !isNaN(alert.lon)) {
+        const marker = L.marker([alert.lat, alert.lon]).bindPopup(popupText);
+        markers.addLayer(marker);
+      }
+    });
+
+    map.addLayer(markers);
+  </script>
+</body>
+</html>

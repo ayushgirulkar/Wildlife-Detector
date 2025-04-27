@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Footage</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h2 {
+            color: #00ffcc;
+        }
+        input[type="file"], input[type="submit"] {
+            margin: 10px 0;
+        }
+        a {
+    color: #44ff00;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 10px 124px 8px;
+    padding: 18px;
+}
+    </style>
+</head>
+<body>
+    <h2>Upload Forest Video or Image</h2>
+
+    <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="media" accept="video/*,image/*" required>
+        <input type="hidden" name="latitude" id="latitude">
+        <input type="hidden" name="longitude" id="longitude">
+        <br>
+        <input type="submit" value="Detect & Upload">
+    </form>
+
+    <a href="/dashboard">← Back to Dashboard</a>
+
+    <script>
+        let locationReady = false;
+
+        function setLocationFallback() {
+            // Default to India if location not allowed
+            document.getElementById('latitude').value = 20.5937;
+            document.getElementById('longitude').value = 78.9629;
+            locationReady = true;
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    document.getElementById('latitude').value = position.coords.latitude;
+                    document.getElementById('longitude').value = position.coords.longitude;
+                    locationReady = true;
+                },
+                function (error) {
+                    alert("Unable to fetch location. Default location will be used.");
+                    setLocationFallback();
+                }
+            );
+        } else {
+            alert("Geolocation not supported. Default location will be used.");
+            setLocationFallback();
+        }
+
+        document.getElementById("uploadForm").addEventListener("submit", function (event) {
+            if (!locationReady) {
+                event.preventDefault();
+                alert("Waiting for location... Please try again in a second.");
+            }
+        });
+    </script>
+
+</body>
+</html>
