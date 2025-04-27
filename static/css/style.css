@@ -1,0 +1,117 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #121212;
+    color: #f0f0f0;
+    padding: 20px;
+}
+
+h2, h3 {
+    color: #ff6f00; /* Neon orange */
+    text-shadow: 0 0 5px #ff6f00, 0 0 10px #ff6f00;
+}
+
+a {
+    color: #ff9100;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 12px;
+    background-color: #1f1f1f;
+    border: 1px solid #ff9100;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+a:hover {
+    background-color: #ff9100;
+    color: #121212;
+}
+
+form {
+    margin: 20px 0;
+    background: #1e1e1e;
+    padding: 15px;
+    border: 1px solid #333;
+    border-radius: 8px;
+}
+
+input {
+    margin: 5px;
+    padding: 8px;
+    background: #2c2c2c;
+    border: 1px solid #555;
+    color: #ff9100;
+    border-radius: 4px;
+}
+
+input::placeholder {
+    color: #888;
+}
+
+#map {
+    margin-top: 20px;
+    border: 2px solid #ff9100;
+    height: 300px;
+    box-shadow: 0 0 10px #ff9100;
+    border-radius: 8px;
+}
+
+ul {
+    background: #1e1e1e;
+    padding: 15px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    list-style-type: none;
+}
+
+li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #2c2c2c;
+    border-left: 4px solid #ff9100;
+    color: #f0f0f0;
+    box-shadow: 0 0 5px #ff6f00;
+}
+form {
+    margin: 20px 0;
+    background: #1e1e1e;
+    padding: 20px;
+    border: 1px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ff6f00;
+    display: inline-block;
+}
+
+input[type="file"],
+input[type="submit"] {
+    margin: 10px 0;
+    padding: 10px 15px;
+    background: #2c2c2c;
+    border: 1px solid #ff9100;
+    color: #ff9100;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background: #ff9100;
+    color: #121212;
+}
+
+a {
+    display: inline-block;
+    margin-top: 15px;
+    color: #ff9100;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 12px;
+    border: 1px solid #ff9100;
+    border-radius: 5px;
+    background-color: #1f1f1f;
+    transition: background-color 0.3s;
+}
+
+a:hover {
+    background-color: #ff9100;
+    color: #121212;
+}
